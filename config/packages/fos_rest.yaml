@@ -1,0 +1,24 @@
+# Read the documentation: https://symfony.com/doc/master/bundles/FOSRestBundle/index.html
+fos_rest:
+    param_fetcher_listener:  force
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: violations
+#    allowed_methods_listener:  true
+#    routing_loader: true
+    view:
+        formats: { json: true, xml: false, rss: false }
+#        view_response_listener:  true
+    exception:
+        codes:
+            App\Exception\ResourceValidationException: 403
+        messages:
+            App\Exception\ResourceValidationException: true
+        serializer_error_renderer: true
+    format_listener:
+        rules:
+            - { path: '^/', prefer_extension: true, fallback_format: json, priorities: [ json, html ] }
+    serializer:
+        serialize_null: true
+    disable_csrf_role: ROLE_API

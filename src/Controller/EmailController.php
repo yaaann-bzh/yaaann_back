@@ -44,7 +44,10 @@ class EmailController extends AbstractFOSRestController
         $notification->notify($contact);
 
         $view = $this->view(
-            $contact,
+            array (
+                'Le message a bien été envoyé. Merci !',
+                $contact,
+            ),
             Response::HTTP_ACCEPTED
         );
 

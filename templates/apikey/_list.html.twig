@@ -24,6 +24,8 @@
                         <td>{{ apikey.appName }}</td>
                         <td>{{ apikey.email }}</td>
                         <td>{{ apikey.creationDate | format_datetime(pattern="dd-MM-Y") }}</td>
+                        {# ATTENTION j'utilise un chemin absolu pour éviter certains bug inexpliqué lors de la génération de l'url
+                         A Modifier avant mis en ligne !! #}
                         <td><a href="/index.php/admin/apikey/delete/{{ apikey.id }}">supprimer</a></td>
                     </tr>
                 {% endfor %}

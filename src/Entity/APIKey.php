@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table()
+ * @ORM\Table(name="yaaannback_apikey")
  */
 class APIKey
 {

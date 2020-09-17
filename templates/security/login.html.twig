@@ -1,0 +1,44 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Page de connexion{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
+{% endblock %}
+
+{% block body %}
+	{% if error %}
+		<div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+	{% endif %}
+	<form class="form-signin" action="{{ path('security_login') }}">
+		<div class="text-center mb-4">
+			<img class="mb-4" src="{{ asset('assets/turtle.png') }}" alt="" width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal">Espace administration</h1>
+			<p>Vous devez être authentifié pour acceder à cet espace.</p>
+		</div>
+
+		<div class="form-label-group">
+			<input type="text" id="username" name="username" class="form-control" placeholder="Username{# {{ 'label.username'|trans }} #}" required="" autofocus="">
+			<label for="username">Username{# {{ 'label.username'|trans }} #}</label>
+		</div>
+
+		<div class="form-label-group">
+			<input type="password" id="password" name="password" class="form-control" placeholder="Mot de passe{# {{ 'label.password'|trans }} #}" required="">
+			<label for="password">Mot de passe{# {{ 'label.password'|trans }} #}</label>
+		</div>
+
+		<div class="checkbox mb-3">
+			<label>
+				<input type="checkbox" value="remember-me"> Se souvenir de moi
+			</label>
+		</div>
+		<input type="hidden" name="_target_path" value="{{ app.request.get('redirect_to') }}"/>
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">{# {{ 'action.sign_in' |trans }} #}Se connecter</button>
+		<p class="mt-5 mb-3 text-muted text-center">
+		<a href="https://yaaann.fr">Yaaann</a> - {% set year = date() %} {{ year | format_date(pattern='Y') }}</p>
+	</form>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle clé API{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {{ form_start(form, {
+                'attr': {
+                    'novalidate': 'novalidate',
+                    'class': 'col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-5' 
+                    }
+                })
+            }}
+                <h1 class="h2">Ajouter une nouvelle clé API</h1>
+                {{ form_row(form.appName, {'label': 'Nom de l\'application'}) }}
+                {{ form_row(form.email) }}
+
+                <button type="submit" class="btn btn-primary">Générer</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <hr class="col-10 offset-1 mt-5 mb-5">
+    {% include "apikey/_list.html.twig" %}
+{% endblock %}
+
+

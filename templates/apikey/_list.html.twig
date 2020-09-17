@@ -2,6 +2,12 @@
     <div class="row">
         <div class="col-12 col-md-8 offset-md-2">
             <h2 class="h3">Liste des clés API déjà existantes</h2>
+            {% for message in app.flashes('notice') %}
+                <p class="alert alert-info" role="alert">
+                    {{ message }}
+                </p>                
+            {% endfor %}
+
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -9,33 +15,25 @@
                         <th scope="col">Application</th>
                         <th scope="col">Email</th>
                         <th scope="col">Date de création</th>
-                        {# <th scope="col">Suppression</th> #}
                     </tr>
                 </thead>
                 <tbody>
+                {% for apikey in apikeys %}
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Exemple</td>
-                        <td>example@example.com</td>
-                        <td>00-00-0000</td>
-                        <td><a href="#">supprimer</a></td>
+                        <th scope="row">{{ apikey.id }}</th>
+                        <td>{{ apikey.appName }}</td>
+                        <td>{{ apikey.email }}</td>
+                        <td>{{ apikey.creationDate | format_datetime(pattern="dd-MM-Y") }}</td>
+                        <td><a href="/index.php/admin/apikey/delete/{{ apikey.id }}">supprimer</a></td>
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Exemple</td>
-                        <td>example@example.com</td>
-                        <td>00-00-0000</td>
-                        <td><a href="#">supprimer</a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Exemple</td>
-                        <td>example@example.com</td>
-                        <td>00-00-0000</td>
-                        <td><a href="#">supprimer</a></td>
-                    </tr>
+                {% endfor %}
                 </tbody>
-                </table>
+            </table>
+            {% if apiKeys is not defined %}
+                <p class="alert alert-info" role="alert">
+                    Aucune clé à afficher !
+                </p>    
+            {% endif %}
         </div>      
     </div>
 </div>

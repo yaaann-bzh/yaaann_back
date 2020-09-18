@@ -1,32 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'body.html.twig' %}
 
 {% block title %}Nouvelle clé API{% endblock %}
 
-{% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-5">
-                <h1 class="h2 mb-3">Votre clé a bien été générée</h1>
-                <p>
-                    Application : 
-                    <span class="font-weight-bold">
-                        {{ apikey.appName }}
-                    </span>
-                </p>
-                <p>
-                    Email : 
-                    <span class="font-weight-bold">
-                        {{ apikey.email }}
-                    </span>
-                </p>
-                <div class="card">
-                    <h5 class="card-header">
-                        Votre clé :
-                    </h5>
-                    <p class="card-text m-3 text-monospace" style="user-select: all;">{{apikey.apiKey}}</p>
-                </div>
-                <a class="btn btn-primary mt-3" href="." role="button">Retour</a>
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-5">
+            <h1 class="h2 mb-3">Votre clé a bien été générée</h1>
+            <p>
+                Application : 
+                <span class="font-weight-bold">
+                    {{ apikey.appName }}
+                </span>
+            </p>
+            <p>
+                Email : 
+                <span class="font-weight-bold">
+                    {{ apikey.email }}
+                </span>
+            </p>
+            <div class="card">
+                <h5 class="card-header">
+                    Votre clé :
+                </h5>
+                <p class="card-text m-3 text-monospace" style="user-select: all;">{{apikey.apiKey}}</p>
             </div>
+            <a class="btn btn-primary mt-3" href="." role="button">Retour</a>
         </div>
     </div>
     <hr class="col-10 offset-1 mt-5 mb-5">

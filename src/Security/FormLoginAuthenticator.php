@@ -109,7 +109,7 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function supportsRememberMe()
     {
-        // todo
+        return true;
     }
 
     protected function getLoginUrl()

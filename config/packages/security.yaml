@@ -28,11 +28,11 @@ security:
             pattern: ^/
             anonymous: true
             provider: database_users
-#            form_login:
-#                login_path: security_login
-#                check_path: security_login
-#                csrf_token_generator: security.csrf.token_manager
-#                default_target_path: add_apikey
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # = 1 week
+                path: /
+#                always_remember_me: true
             logout:
                 path: security_logout
             guard:

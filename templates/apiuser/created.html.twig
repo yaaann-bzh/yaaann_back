@@ -9,26 +9,26 @@
             <p>
                 Application : 
                 <span class="font-weight-bold">
-                    {{ apikey.appName }}
+                    {{ apiuser.appName }}
                 </span>
             </p>
             <p>
                 Email : 
                 <span class="font-weight-bold">
-                    {{ apikey.email }}
+                    {{ apiuser.email }}
                 </span>
             </p>
             <div class="card">
                 <h5 class="card-header">
                     Votre clé :
                 </h5>
-                <p class="card-text m-3 text-monospace" style="user-select: all;">{{apikey.apiKey}}</p>
+                <p class="card-text m-3 text-monospace" style="user-select: all;">{{apiuser.apiToken}}</p>
             </div>
             <a class="btn btn-primary mt-3" href="." role="button">Retour</a>
         </div>
     </div>
     <hr class="col-10 offset-1 mt-5 mb-5">
-    {% include "apikey/_list.html.twig" %}
+    {% include "apiuser/_list.html.twig" %}
 {% endblock %}
 
 

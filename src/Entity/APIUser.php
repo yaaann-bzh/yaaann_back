@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\aPIKeyRepository;
+use App\Repository\APIUserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="yaaannback_apikey")
+ * @ORM\Table(name="yaaannback_apiuser")
  */
-class APIKey
+class APIUser implements UserInterface
 {
     /**
      * @ORM\Id
@@ -20,9 +21,9 @@ class APIKey
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
-    private $apiKey;
+    private $apiToken;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -41,23 +42,39 @@ class APIKey
     /**
      * @ORM\Column(type="date")
      */
+
     private $creationDate;
+    /**
+     * @ORM\Column(type="json")
+     */
+
+    private $roles = [];
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getApiKey(): ?string
+    public function getApiToken(): ?string
     {
-        return $this->apiKey;
+        return $this->apiToken;
     }
 
-    public function setApiKey(string $apiKey): self
+    public function setApiToken(string $apiToken): self
     {
-        $this->apiKey = $apiKey;
+        $this->apiToken = $apiToken;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->apiToken;
     }
 
     public function getAppName(): ?string
@@ -102,5 +119,49 @@ class APIKey
         $this->creationDate = $creationDate;
 
         return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword()
+    {
+        // not needed for apps that do not check user passwords
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed for apps that do not check user passwords
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }

@@ -17,18 +17,18 @@
                 </tr>
             </thead>
             <tbody>
-            {% for apikey in apikeys %}
+            {% for apiuser in apiusers %}
                 <tr>
-                    <th scope="row"><a href="{{ path('show_apikey', { 'id': apikey.id}, relative = true) }}">{{ apikey.id }}</a></th>
-                    <td>{{ apikey.appName }}</td>
-                    <td>{{ apikey.email }}</td>
-                    <td>{{ apikey.creationDate | format_datetime(pattern="dd-MM-Y") }}</td>
-                    <td><a href="{{ path('delete_apikey', { 'id': apikey.id}, relative = true) }}">supprimer</a></td>
+                    <th scope="row"><a href="{{ path('show_apiuser', { 'id': apiuser.id}, relative = true) }}">{{ apiuser.id }}</a></th>
+                    <td>{{ apiuser.appName }}</td>
+                    <td>{{ apiuser.email }}</td>
+                    <td>{{ apiuser.creationDate | format_datetime(pattern="dd-MM-Y") }}</td>
+                    <td><a href="{{ path('delete_apiuser', { 'id': apiuser.id}, relative = true) }}">supprimer</a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        {% if apikeys is not defined %}
+        {% if apiusers is empty %}
             <p class="alert alert-info" role="alert">
                 Aucune clé à afficher !
             </p>    

@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 
-class EmailController extends AbstractFOSRestController
+class ContactController extends AbstractFOSRestController
 {
     private $serializer;
 

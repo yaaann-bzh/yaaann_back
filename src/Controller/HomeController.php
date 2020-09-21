@@ -12,6 +12,6 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        return $this->redirectToRoute('add_apikey');
+        return $this->redirectToRoute('add_apiuser');
     }
 }

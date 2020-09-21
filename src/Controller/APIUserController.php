@@ -21,6 +21,7 @@ class APIUserController extends AbstractController
         $form->handleRequest($request);
         $apiUser
             ->setApiToken(bin2hex(random_bytes(15)))
+            ->setRoles(['ROLE_CONTACT'])
             ->setCreationDate(new \DateTime());
 
         $repository = $this->getDoctrine()->getRepository(APIUser::class);

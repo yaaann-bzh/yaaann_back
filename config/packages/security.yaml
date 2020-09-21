@@ -5,34 +5,27 @@ security:
         App\Entity\User: 
             algorithm: bcrypt
 
-    role_hierarchy:
-        ROLE_USER:       ROLE_USER
-        ROLE_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
-
     providers:
         database_users:
             entity:
                 class: App\Entity\User
                 property: username
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
+        api_users:
             entity:
                 class: App\Entity\APIUser
                 property: apiToken
-        # used to reload user from session & other features (e.g. switch_user)
-#        app_user_provider:
-#            id: App\Security\UserProvider
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-#        contact:
-#            pattern: ^/contact
-#            guard:
-#                authenticators:
-#                    - App\Security\EmailAuthenticator
+        contact:
+            pattern: ^/contact
+            provider: api_users
+            guard:
+                authenticators:
+                    - App\Security\ContactAuthenticator
 
         admin:
             pattern: ^/
@@ -61,6 +54,10 @@ security:
 #    enable_authenticator_manager: true
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
+    role_hierarchy:
+        ROLE_CONTACT: ROLE_CONTACT
+        ROLE_ADMIN : [ROLE_CONTACT, ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/contact, roles: CONTACT_USER }
+         - { path: ^/contact, roles: ROLE_CONTACT }

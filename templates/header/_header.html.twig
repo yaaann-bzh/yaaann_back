@@ -7,10 +7,10 @@
 
         <div class="collapse navbar-collapse" id="navbarsExample04">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item {% if tab == 'apikey' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('add_apikey') }}">Clés API</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {% if tab == 'users' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('add_user') }}">Utilisateurs</a>
                 </li>
             </ul>

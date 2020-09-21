@@ -38,7 +38,8 @@ class APIKeyController extends AbstractController
 
         return $this->render('apikey/form.html.twig', [
             'form' => $form->createView(),
-            'apikeys' => $apikeys
+            'apikeys' => $apikeys,
+            'tab' => 'apikey'
         ]);
     }
 
@@ -53,7 +54,8 @@ class APIKeyController extends AbstractController
 
         return $this->render('apikey/created.html.twig', [
             'apikey' => $apiKey,
-            'apikeys' => $apikeys
+            'apikeys' => $apikeys,
+            'tab' => 'apikey'
         ]);
     }
 

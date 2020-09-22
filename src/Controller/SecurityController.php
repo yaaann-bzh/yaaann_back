@@ -16,7 +16,7 @@ class SecurityController extends AbstractController
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('add_apikey');
+            return $this->redirectToRoute('add_apiuser');
         }
 
         $error = $authenticationUtils->getLastAuthenticationError();

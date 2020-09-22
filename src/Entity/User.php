@@ -20,22 +20,22 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string", unique=true, length=100)
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string", unique=true, length=100)
      * @Assert\Email()
      */
     private $email;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="string")
      */
-    private $roles = [];
+    private $roles;
 
     /**
      * @var string The hashed password
@@ -74,7 +74,11 @@ class User implements UserInterface, \Serializable
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+        // MySQL on my OVH host doesnt support json format : I cheat to convert string to an array
+        if (is_string($roles)) {
+            $roles = explode(',', str_replace(' ', '', $roles));
+        }
+
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -82,8 +86,9 @@ class User implements UserInterface, \Serializable
 
     public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
-
+        // MySQL on my OVH host doesnt support json format : I cheat to convert string to an array
+        $this->roles = implode(', ', $roles);
+        
         return $this;
     }
 

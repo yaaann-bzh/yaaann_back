@@ -33,7 +33,7 @@ class APIUser implements UserInterface
     private $appName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
      * @Assert\Email(message="Merci de renseigner une adresse mail valide")     
      */
@@ -44,11 +44,11 @@ class APIUser implements UserInterface
      */
 
     private $creationDate;
-    /**
-     * @ORM\Column(type="json")
-     */
 
-    private $roles = [];
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $roles;
 
     public function getId(): ?int
     {
@@ -127,6 +127,12 @@ class APIUser implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
+
+        // MySQL on my OVH host doesnt support json format : I cheat to convert string to an array
+        if (is_string($roles)) {
+            $roles = explode(',', str_replace(' ', '', $roles));
+        }        
+
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
@@ -135,7 +141,8 @@ class APIUser implements UserInterface
 
     public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
+        // MySQL on my OVH host doesnt support json format : I cheat to convert string to an array
+        $this->roles = implode(', ', $roles);
 
         return $this;
     }

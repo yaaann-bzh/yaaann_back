@@ -22,7 +22,6 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($userPasswordEncoder->encodePassword($user, $user->getPassword()));
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

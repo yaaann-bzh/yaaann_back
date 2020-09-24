@@ -142,7 +142,7 @@ class APIUser implements UserInterface
     public function setRoles(array $roles): self
     {
         // MySQL on my OVH host doesnt support json format : I cheat to convert string to an array
-        $this->roles = implode(', ', $roles);
+        $this->roles = str_replace('"', '', implode(', ', $roles));
 
         return $this;
     }

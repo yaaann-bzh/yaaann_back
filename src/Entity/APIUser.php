@@ -61,9 +61,15 @@ class APIUser implements UserInterface
      */
     private $userConnections;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Project::class, mappedBy="author")
+     */
+    private $projects;
+
     public function __construct()
     {
         $this->userConnections = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,6 +219,37 @@ class APIUser implements UserInterface
             // set the owning side to null (unless already changed)
             if ($userConnection->getUser() === $this) {
                 $userConnection->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
+            // set the owning side to null (unless already changed)
+            if ($project->getAuthor() === $this) {
+                $project->setAuthor(null);
             }
         }
 

@@ -33,7 +33,7 @@ class User implements UserInterface, \Serializable
     private $email;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $roles;
 

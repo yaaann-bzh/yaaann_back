@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\APIUser;
+use App\Service\ConnectionLimit;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +17,14 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 class ContactAuthenticator extends AbstractGuardAuthenticator
 {
     private $em;
+    private $contactLimit;
+    private $connectionLimit;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ConnectionLimit $connectionLimit, int $contactLimit)
     {
         $this->em = $em;
+        $this->contactLimit = $contactLimit;
+        $this->connectionLimit = $connectionLimit;
     }
 
     public function supports(Request $request)
@@ -40,15 +45,15 @@ class ContactAuthenticator extends AbstractGuardAuthenticator
             return new Response("Authentication Failed", Response::HTTP_UNAUTHORIZED);
         }
 
+        $user = $this->em->getRepository(APIUser::class)->findOneBy(['apiToken' => $credentials]);
+
         // if a User is returned, checkCredentials() is called
-        return $this->em->getRepository(APIUser::class)
-            ->findOneBy(['apiToken' => $credentials])
-        ;
+        return $user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return true;
+        return $this->connectionLimit->checkLimit($user, $this->contactLimit);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)

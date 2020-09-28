@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\APIUserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -46,9 +47,24 @@ class APIUser implements UserInterface
     private $creationDate;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $roles;
+
+    /**
+     * @ORM\OneToMany(
+     *      targetEntity=UserConnection::class,
+     *      mappedBy="user",
+     *      cascade={"all"},
+     *      fetch="EAGER"
+     * )
+     */
+    private $userConnections;
+
+    public function __construct()
+    {
+        $this->userConnections = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -170,5 +186,36 @@ class APIUser implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|UserUserConnection[]
+     */
+    public function getUserConnections(): Collection
+    {
+        return $this->userConnections;
+    }
+
+    public function addUserConnection(UserConnection $userConnection): self
+    {
+        if (!$this->userConnections->contains($userConnection)) {
+            $this->userConnections[] = $userConnection;
+            $userConnection->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserConnection(UserConnection $userConnection): self
+    {
+        if ($this->userConnections->contains($userConnection)) {
+            $this->userConnections->removeElement($userConnection);
+            // set the owning side to null (unless already changed)
+            if ($userConnection->getUser() === $this) {
+                $userConnection->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

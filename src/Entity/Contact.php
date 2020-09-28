@@ -19,7 +19,14 @@ class Contact
      * @Assert\Length(min=1, max=100)
      */
     private $fullname;
- 
+
+    /**
+     * @var string|null
+     * @Assert\NotBlank()
+     * @Assert\Length(min=1, max=100)
+     */
+    private $object;
+
     /**
      * @var string|null
      * @Assert\NotBlank()
@@ -83,6 +90,30 @@ class Contact
     public function setContent($content)
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of object
+     *
+     * @return  string|null
+     */ 
+    public function getObject()
+    {
+        return $this->object;
+    }
+
+    /**
+     * Set the value of object
+     *
+     * @param  string|null  $object
+     *
+     * @return  self
+     */ 
+    public function setObject($object)
+    {
+        $this->object = $object;
 
         return $this;
     }

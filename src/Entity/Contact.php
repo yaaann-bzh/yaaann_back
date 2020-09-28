@@ -25,7 +25,7 @@ class Contact
      * @Assert\NotBlank()
      * @Assert\Length(min=1, max=100)
      */
-    private $object;
+    private $subject;
 
     /**
      * @var string|null
@@ -95,25 +95,25 @@ class Contact
     }
 
     /**
-     * Get the value of object
+     * Get the value of subject
      *
      * @return  string|null
      */ 
-    public function getObject()
+    public function getSubject()
     {
-        return $this->object;
+        return $this->subject;
     }
 
     /**
-     * Set the value of object
+     * Set the value of subject
      *
-     * @param  string|null  $object
+     * @param  string|null  $subject
      *
      * @return  self
      */ 
-    public function setObject($object)
+    public function setSubject($subject)
     {
-        $this->object = $object;
+        $this->subject = $subject;
 
         return $this;
     }

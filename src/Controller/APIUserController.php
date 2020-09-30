@@ -9,10 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
+/**
+ * @Route("/app/admin")
+ */
 class APIUserController extends AbstractController
 {
     /**
-     * @Route("/admin/apiuser", name="add_apiuser")
+     * @Route("/apiuser", name="add_apiuser")
      */
     public function index(Request $request)
     {
@@ -45,7 +48,7 @@ class APIUserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/apiuser/{id}", name="show_apiuser")
+     * @Route("/apiuser/{id}", name="show_apiuser")
      * @ParamConverter("apiUser", class="App\Entity\ApiUser")
      */
     public function show(APIUser $apiUser)
@@ -61,7 +64,7 @@ class APIUserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/apiuser/delete/{id}", name="delete_apiuser")
+     * @Route("/apiuser/delete/{id}", name="delete_apiuser")
      * @ParamConverter("apiUser", class="App\Entity\ApiUser")
      */
     public function delete(APIUser $apiUser)

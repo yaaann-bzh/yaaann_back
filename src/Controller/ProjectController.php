@@ -13,6 +13,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationList;
 
+/**
+ * @Route("/api")
+ */
 class ProjectController extends AbstractFOSRestController
 {
     private $serializer;
@@ -24,7 +27,7 @@ class ProjectController extends AbstractFOSRestController
 
     /**
      * @Route(
-     *      path = "/api/projects",
+     *      path = "/projects",
      *      name = "projects_list",
      *      methods={"GET"}
      * )
@@ -45,7 +48,7 @@ class ProjectController extends AbstractFOSRestController
 
     /**
      * @Route(
-     *      path = "/api/projects/{project_id}",
+     *      path = "/projects/{project_id}",
      *      name = "projects_show",
      *      requirements = {"id"="\d+"},
      *      methods={"GET"}
@@ -65,7 +68,7 @@ class ProjectController extends AbstractFOSRestController
 
     /**
      * @Route(
-     *      path = "/api/admin/projects",
+     *      path = "/admin/projects",
      *      name = "projects_add",
      *      methods={"POST"}
      * )
@@ -96,7 +99,7 @@ class ProjectController extends AbstractFOSRestController
 
     /**
      * @Route(
-     *      path = "/api/admin/projects/{project_id}",
+     *      path = "/admin/projects/{project_id}",
      *      name = "projects_edit",
      *      requirements = {"id"="\d+"},
      *      methods={"PUT"}
@@ -140,7 +143,7 @@ class ProjectController extends AbstractFOSRestController
 
     /**
      * @Route(
-     *      path = "/api/admin/projects/{project_id}",
+     *      path = "/admin/projects/{project_id}",
      *      name = "projects_delete",
      *      requirements = {"id"="\d+"},
      *      methods={"DELETE"}

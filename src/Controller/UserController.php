@@ -9,10 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * @Route("/app/admin")
+ */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/admin/user/add", name="add_user")
+     * @Route("/user/add", name="add_user")
      */
     public function addUser(Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
     {

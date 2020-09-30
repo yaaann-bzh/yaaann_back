@@ -11,7 +11,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="security_login")
+     * @Route("/app/login", name="security_login")
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
@@ -29,10 +29,18 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="security_logout")
+     * @Route("/app/logout", name="security_logout")
      */
     public function logout()
     {
         throw new \Exception('This should never be reached!');
+    }
+
+    /**
+     * @Route("/api/login_check", name="api_login_check")
+     */
+    public function apiLogin(): Response
+    {
+        return new Response(sprintf('Logged in as %s', $this->getUser()->getUsername()), Response::HTTP_ACCEPTED);
     }
 }

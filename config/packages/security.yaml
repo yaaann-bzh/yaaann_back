@@ -28,19 +28,37 @@ security:
                     - App\Security\ContactAuthenticator
 
         admin:
-            pattern: ^/
+            pattern: ^/app/
             anonymous: true
             provider: database_users
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 # = 1 week
                 path: /
-#                always_remember_me: true
             logout:
                 path: security_logout
             guard:
                 authenticators:
                     - App\Security\FormLoginAuthenticator
+
+
+        api_login:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            provider: database_users
+            json_login:
+                check_path: api_login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure     
+                
+        api:
+            pattern:   ^/api/admin
+            stateless: true
+            provider: database_users
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
 
 #        main:
 #            anonymous: true
@@ -60,5 +78,7 @@ security:
         ROLE_ADMIN : [ROLE_CONTACT, ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/app/admin, roles: ROLE_ADMIN }
          - { path: ^/contact, roles: ROLE_CONTACT }
+         - { path: ^/api/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/api/admin,       roles: IS_AUTHENTICATED_FULLY }

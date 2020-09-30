@@ -9,7 +9,7 @@ security:
         database_users:
             entity:
                 class: App\Entity\User
-                property: username
+                property: email
         api_users:
             entity:
                 class: App\Entity\APIUser

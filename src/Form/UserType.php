@@ -22,7 +22,7 @@ class UserType extends AbstractType
             ->add('email', EmailType::class)
             ->add('roles', ChoiceType::class, [
                 'choices'  => [
-                    'Utilisateur' => 'ROLE_USER',
+                    'Utilisateur (API)' => 'ROLE_USER',
                     'Administrateur' => 'ROLE_ADMIN'
                 ],
                 'expanded' => true, // si multiple == false(par défaut) => radio, si true => checkbox    

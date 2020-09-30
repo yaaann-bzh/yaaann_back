@@ -68,7 +68,7 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new InvalidCsrfTokenException();      
         }
 
-        $user = $this->manager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
+        $user = $this->manager->getRepository(User::class)->findOneBy(['email' => $credentials['username']]);
         
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('Nom utilisateur inconnu.');

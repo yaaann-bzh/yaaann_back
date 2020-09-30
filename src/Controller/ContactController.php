@@ -8,7 +8,7 @@ use App\Notification\ContactNotification;
 use FOS\RestBundle\Controller\AbstractFOSRestController;;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Component\Routing\Annotation\Route;
 use JMS\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -22,9 +22,10 @@ class ContactController extends AbstractFOSRestController
     }
     
     /**
-     * @Rest\Post(
+     * @Route(
      *      path = "/contact",
-     *      name="contact"
+     *      name="contact",
+     *      methods={"POST"}
      * )
      * 
      * @ParamConverter("contact", converter="fos_rest.request_body")

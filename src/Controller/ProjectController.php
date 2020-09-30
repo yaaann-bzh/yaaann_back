@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Exception\ResourceValidationException;
-use DateTime;
+use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
-use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Component\Routing\Annotation\Route;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -23,9 +23,10 @@ class ProjectController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get(
-     *      path = "/projects",
-     *      name = "projects_list"
+     * @Route(
+     *      path = "/api/projects",
+     *      name = "projects_list",
+     *      methods={"GET"}
      * )
      */
     public function listAction()
@@ -34,34 +35,39 @@ class ProjectController extends AbstractFOSRestController
                 ->getRepository(Project::class)
                 ->findAll();
 
-        $data = $this->serializer->serialize($projects, 'json', SerializationContext::create()->setGroups(array('projects', 'users', 'cathegories')));
+        $context = new Context();
 
-        $response = new Response($data);
-        $response->headers->set('Content-Type', 'application/json');
+        $view = $this->view($projects, 200);
+        $view->setContext($context->setGroups(array('projects', 'users', 'cathegories')));
 
-        return $response; 
+        return $this->handleView($view);
     }
 
     /**
-     * @Rest\Get(
-     *      path = "/projects/{project_id}",
+     * @Route(
+     *      path = "/api/projects/{project_id}",
      *      name = "projects_show",
-     *      requirements = {"id"="\d+"}
+     *      requirements = {"id"="\d+"},
+     *      methods={"GET"}
      * )
      * 
      * @ParamConverter("project", options={"id" = "project_id"})
      */
     public function showAction(Project $project)
     {
+        $context = new Context();
+
         $view = $this->view($project, 200);
+        $view->setContext($context->setGroups(array('project_detail', 'users', 'cathegories')));
 
         return $this->handleView($view);
     }
 
     /**
-     * @Rest\Post(
-     *      path = "/projects",
-     *      name = "projects_add"
+     * @Route(
+     *      path = "/api/admin/projects",
+     *      name = "projects_add",
+     *      methods={"POST"}
      * )
      * 
      * @ParamConverter("project", converter="fos_rest.request_body")
@@ -79,15 +85,21 @@ class ProjectController extends AbstractFOSRestController
         $em = $this->getDoctrine()->getManager();
         $em->persist($project);
         $em->flush();
-            
-        return $this->handleView($this->view($project, Response::HTTP_CREATED));  
+
+        $context = new Context();
+
+        $view = $this->view($project, Response::HTTP_CREATED);
+        $view->setContext($context->setGroups(array('project_detail', 'users', 'cathegories')));
+
+        return $this->handleView($view);  
     }
 
     /**
-     * @Rest\Put(
-     *      path = "/projects/{project_id}",
+     * @Route(
+     *      path = "/api/admin/projects/{project_id}",
      *      name = "projects_edit",
-     *      requirements = {"id"="\d+"}
+     *      requirements = {"id"="\d+"},
+     *      methods={"PUT"}
      * )
      * 
      * @ParamConverter("project", options={"id" = "project_id"})
@@ -118,14 +130,20 @@ class ProjectController extends AbstractFOSRestController
         $em = $this->getDoctrine()->getManager();
         $em->flush();
             
-        return $this->handleView($this->view($project, Response::HTTP_OK));  
+        $context = new Context();
+
+        $view = $this->view($project, Response::HTTP_OK);
+        $view->setContext($context->setGroups(array('project_detail', 'users', 'cathegories')));
+
+        return $this->handleView($view);  
     }
 
     /**
-     * @Rest\Delete(
-     *      path = "/projects/{project_id}",
-     *      name = "projects_edit",
-     *      requirements = {"id"="\d+"}
+     * @Route(
+     *      path = "/api/admin/projects/{project_id}",
+     *      name = "projects_delete",
+     *      requirements = {"id"="\d+"},
+     *      methods={"DELETE"}
      * )
      * 
      * @ParamConverter("project", options={"id" = "project_id"})

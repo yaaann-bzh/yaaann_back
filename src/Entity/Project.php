@@ -66,7 +66,7 @@ class Project
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Assert\Length(min=10, max=50)
+     * @Assert\Length(min=5, max=50)
      * @JMS\Groups({"projects", "project_detail"})
      */
     private $shortTitle;

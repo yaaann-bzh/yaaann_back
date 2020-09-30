@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Entity()
@@ -15,12 +16,14 @@ class Project
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @JMS\Groups({"projects", "project_detail"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=APIUser::class, inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
+     * @JMS\Groups({"projects", "project_detail"})
      */
     private $author;
 
@@ -28,6 +31,7 @@ class Project
      * @ORM\Column(type="string", length=100, nullable=true)
      * @Assert\Length(min=2, max=100)
      * @Assert\Url
+     * @JMS\Groups({"project_detail"})
      */
     private $url;
 
@@ -35,6 +39,7 @@ class Project
      * @ORM\Column(type="string", length=100, nullable=true)
      * @Assert\Length(min=2, max=100)
      * @Assert\Url
+     * @JMS\Groups({"project_detail"})
      */
     private $githubUrl;
 
@@ -42,53 +47,62 @@ class Project
      * @ORM\Column(type="string", length=100, nullable=true)
      * @Assert\Length(min=2, max=100)
      * @Assert\Url
+     * @JMS\Groups({"project_detail"})
      */
     private $gitlabUrl;
 
     /**
      * @ORM\Column(type="array", nullable=true)
+     * @JMS\Groups({"project_detail"})
      */
     private $pictures = [];
 
     /**
      * @ORM\Column(type="string", length=150)
      * @Assert\Length(min=10, max=150)
+     * @JMS\Groups({"project_detail"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\Length(min=10, max=50)
+     * @JMS\Groups({"projects", "project_detail"})
      */
     private $shortTitle;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min=10, max=300)
+     * @Assert\Length(min=10, max=1000)
+     * @JMS\Groups({"project_detail"})
      */
     private $tldr;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min=20, max=3000)
+     * @Assert\Length(min=20, max=20000)
+     * @JMS\Groups({"project_detail"})
      */
     private $content;
 
     /**
      * @ORM\ManyToOne(targetEntity=ProjectCathegory::class, inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
+     * @JMS\Groups({"projects", "project_detail"})
      */
     private $cathegory;
 
     /**
      * @ORM\Column(type="datetime")
+     * @JMS\Groups({"projects", "project_detail"})
      */
-    private $creationDate;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @JMS\Groups({"projects", "project_detail"})
      */
-    private $updateDate;
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -204,41 +218,41 @@ class Project
     }
 
     /**
-     * Get the value of creationDate
+     * Get the value of createdAt
      */ 
-    public function getCreationDate()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->creationDate;
+        return $this->createdAt;
     }
 
     /**
-     * Set the value of creationDate
+     * Set the value of createdAt
      *
      * @return  self
      */ 
-    public function setCreationDate($creationDate)
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->creationDate = $creationDate;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get the value of updateDate
+     * Get the value of updatedAt
      */ 
-    public function getUpdateDate()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updateDate;
+        return $this->updatedAt;
     }
 
     /**
-     * Set the value of updateDate
+     * Set the value of updatedAt
      *
      * @return  self
      */ 
-    public function setUpdateDate($updateDate)
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->updateDate = $updateDate;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

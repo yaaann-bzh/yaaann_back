@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\Type;
 
 class Contact
 {
@@ -10,6 +11,7 @@ class Contact
      * @var string|null
      * @Assert\NotBlank()
      * @Assert\Email()
+     * @Type("string")
      */
     private $email;
 
@@ -17,6 +19,7 @@ class Contact
      * @var string|null
      * @Assert\NotBlank()
      * @Assert\Length(min=1, max=100)
+     * @Type("string")
      */
     private $fullname;
 
@@ -24,6 +27,7 @@ class Contact
      * @var string|null
      * @Assert\NotBlank()
      * @Assert\Length(min=1, max=100)
+     * @Type("string")
      */
     private $subject;
 
@@ -31,6 +35,7 @@ class Contact
      * @var string|null
      * @Assert\NotBlank()
      * @Assert\Length(min=10)
+     * @Type("string")
      */
     private $content;
 

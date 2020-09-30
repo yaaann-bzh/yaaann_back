@@ -4,14 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Exception\ResourceValidationException;
-use App\Form\ContactType;
 use App\Notification\ContactNotification;
 use FOS\RestBundle\Controller\AbstractFOSRestController;;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use JMS\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 
 class ContactController extends AbstractFOSRestController
@@ -25,7 +24,7 @@ class ContactController extends AbstractFOSRestController
     /**
      * @Rest\Post(
      *      path = "/contact",
-     *       name="contact"
+     *      name="contact"
      * )
      * 
      * @ParamConverter("contact", converter="fos_rest.request_body")

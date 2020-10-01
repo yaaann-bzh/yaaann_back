@@ -5,7 +5,6 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     contact_max_per_hour: '%env(CONTACT_MAX_PER_HOUR)%'
-    crud_max_per_hour: '%env(CRUD_MAX_PER_HOUR)%'
 
 services:
     # default configuration for services in *this* file

@@ -1,0 +1,13 @@
+{% extends 'body.html.twig' %}
+
+{% block title %}Email envoyé !{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-5">
+            <p>Un e-mail contenant un lien de réinitialisation vous a été envoyé. Il expirera dans {{ tokenLifetime|date('g') }} heure(s).</p>
+            <p>Si vous ne recevez pas le message, vérifiez vos indésirables ou <a href="{{ path('app_forgot_password_request') }}">réessayez</a>.</p>
+            <p><a href="{{ path('home')}}">Retour à l'accueil</a></p>
+        </div>
+    </div> 
+{% endblock %}

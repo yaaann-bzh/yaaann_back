@@ -44,6 +44,7 @@
 			{# <input type="hidden" name="_target_path" value="{{ app.request.get('redirect_to') }}"/> #}
 			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
 			<button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
+			<p class="m-3 text-center"><a href="{{ path('app_forgot_password_request', relative = true) }}">Mot de passe oublié ?</a></p>
 			<p class="mt-5 mb-3 text-muted text-center">
 				<a href="https://www.yaaann.fr">Yaaann</a> - {% set year = date() %} {{ year | format_date(pattern='Y') }}
 			</p>

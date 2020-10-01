@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface; 
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Entity()
@@ -16,6 +19,7 @@ class User implements UserInterface, \Serializable
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @JMS\Groups({"users", "user_detail"})
      */
     private $id;
 
@@ -23,17 +27,20 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", unique=true, length=100)
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
+     * @JMS\Groups({"users", "user_detail"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", unique=true, length=100)
      * @Assert\Email()
+     * @JMS\Groups({"user_detail"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @JMS\Groups({"user_detail"})    
      */
     private $roles;
 
@@ -45,6 +52,17 @@ class User implements UserInterface, \Serializable
      * )
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Project::class, mappedBy="author")
+     * @JMS\Groups({"user_detail"})
+     */
+    private $projects;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,6 +158,37 @@ class User implements UserInterface, \Serializable
     public function setEmail($email)
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->setAuthor(null);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
+            // set the owning side to null (unless already changed)
+            if ($project->getAuthor() === $this) {
+                $project->setAuthor(null);
+            }
+        }
 
         return $this;
     }

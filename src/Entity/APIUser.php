@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Entity()
@@ -19,13 +18,11 @@ class APIUser implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @JMS\Groups({"users", "user_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
-     * @JMS\Groups({"user_detail"})
      */
     private $apiToken;
 
@@ -33,7 +30,6 @@ class APIUser implements UserInterface
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
      * @Assert\Length(min=1, max=50)
-     * @JMS\Groups({"users", "user_detail"})
      */
     private $appName;
 
@@ -41,19 +37,16 @@ class APIUser implements UserInterface
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank(message="Ce champ ne doit pas être vide")
      * @Assert\Email(message="Merci de renseigner une adresse mail valide")
-     * @JMS\Groups({"user_detail"})    
      */
     private $email;
 
     /**
      * @ORM\Column(type="date")
-     * @JMS\Groups({"user_detail"})
      */
     private $creationDate;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @JMS\Groups({"user_detail"})
      */
     private $roles;
 
@@ -64,20 +57,12 @@ class APIUser implements UserInterface
      *      cascade={"all"},
      *      fetch="EAGER"
      * )
-     * @JMS\Groups({"user_detail"})
      */
     private $userConnections;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Project::class, mappedBy="author")
-     * @JMS\Groups({"user_detail"})
-     */
-    private $projects;
 
     public function __construct()
     {
         $this->userConnections = new ArrayCollection();
-        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,37 +212,6 @@ class APIUser implements UserInterface
             // set the owning side to null (unless already changed)
             if ($userConnection->getUser() === $this) {
                 $userConnection->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Project[]
-     */
-    public function getProjects(): Collection
-    {
-        return $this->projects;
-    }
-
-    public function addProject(Project $project): self
-    {
-        if (!$this->projects->contains($project)) {
-            $this->projects[] = $project;
-            $project->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProject(Project $project): self
-    {
-        if ($this->projects->contains($project)) {
-            $this->projects->removeElement($project);
-            // set the owning side to null (unless already changed)
-            if ($project->getAuthor() === $this) {
-                $project->setAuthor(null);
             }
         }
 

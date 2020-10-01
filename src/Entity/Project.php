@@ -21,7 +21,7 @@ class Project
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=APIUser::class, inversedBy="projects")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="projects")
      * @ORM\JoinColumn(nullable=false)
      * @JMS\Groups({"projects", "project_detail"})
      */
@@ -109,12 +109,12 @@ class Project
         return $this->id;
     }
 
-    public function getAuthor(): ?APIUser
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(?APIUser $author): self
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
 

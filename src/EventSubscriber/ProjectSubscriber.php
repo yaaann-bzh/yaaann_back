@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\APIUser;
+use App\Entity\User;
 use App\Entity\ProjectCathegory;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface; 
@@ -31,7 +31,7 @@ class ProjectSubscriber implements EventSubscriberInterface
     public function OnPreDeserialize(PreDeserializeEvent $event)
     {
         $data = $event->getData();
-        $this->author = $this->em->getRepository(APIUser::class)->find($data['author_id']);
+        $this->author = $this->em->getRepository(User::class)->find($data['author_id']);
         $this->cathegory = $this->em->getRepository(ProjectCathegory::class)->find($data['cathegory_id']);
     }
 

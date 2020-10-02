@@ -7,8 +7,6 @@ use App\Exception\ResourceValidationException;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\Routing\Annotation\Route;
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -18,13 +16,6 @@ use Symfony\Component\Validator\ConstraintViolationList;
  */
 class ProjectController extends AbstractFOSRestController
 {
-    private $serializer;
-
-    public function __construct(SerializerInterface $serializer) 
-    {
-        $this->serializer = $serializer;
-    }
-
     /**
      * @Route(
      *      path = "/projects",

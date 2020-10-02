@@ -12,6 +12,8 @@ use JMS\Serializer\Annotation as JMS;
 /**
  * @ORM\Entity()
  * @ORM\Table(name="yaaannback_user")
+ * 
+ * @JMS\ExclusionPolicy("all")
  */
 class User implements UserInterface, \Serializable
 {
@@ -20,6 +22,7 @@ class User implements UserInterface, \Serializable
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @JMS\Groups({"users", "user_detail"})
+     * @JMS\Expose
      */
     private $id;
 
@@ -28,6 +31,7 @@ class User implements UserInterface, \Serializable
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
      * @JMS\Groups({"users", "user_detail"})
+     * @JMS\Expose
      */
     private $username;
 
@@ -35,12 +39,14 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", unique=true, length=100)
      * @Assert\Email()
      * @JMS\Groups({"user_detail"})
+     * @JMS\Expose
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @JMS\Groups({"user_detail"})    
+     * @JMS\Groups({"user_detail"})
+     * @JMS\Expose  
      */
     private $roles;
 
@@ -56,6 +62,7 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\OneToMany(targetEntity=Project::class, mappedBy="author")
      * @JMS\Groups({"user_detail"})
+     * @JMS\Expose
      */
     private $projects;
 
